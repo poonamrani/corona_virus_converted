@@ -1,0 +1,31 @@
+<router-outlet></router-outlet>
+<div class="container mt-4">
+  <div class="row">
+    <div class="col">
+      <input type="text" class="form-control" (blur)="getVirusComposition($event)" placeholder="Enter virus composition">
+    </div>
+    <div class="col">
+      <input type="number" min="0" class="form-control" (blur)="peopleCount($event)" placeholder="Enter number of people">
+    </div>
+  </div>
+  <div class="row" *ngFor="let person of people; let i=index">
+    <div class="col-md-3 mt-3">
+      <label for="">Person {{i+1}} Blood Composition</label>
+    </div>
+    <div class="col-md-9 mt-3">
+      <input type="text" class="form-control" placeholder="Enter blood composition here" (blur)="VirusSubsequence($event)">
+    </div>
+  </div>
+  <span *ngIf="showResults">
+  <div class="row" *ngFor="let result of finalResults; let i=index">
+    <div class="col mt-3 text-dark">Results for person {{i+1}}: {{result}}</div>
+  </div>
+</span>
+  <div class="row">
+    <div class="col">
+      <button type="submit" (click)="OnSubmitHandler()" [disabled]="showResults" class="btn btn-primary col-md-12 mt-3">Submit</button>
+    </div>
+  </div>
+
+</div>
+
