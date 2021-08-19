@@ -18,17 +18,17 @@
       <label for="">Person {{i+1}} Blood Composition</label>
     </div>
     <div class="col-md-9 mt-3">
-      <input type="text" class="form-control" placeholder="Enter blood composition here" (blur)="VirusSubsequence($event)">
+      <input type="text" class="form-control" (blur)="addData($event, i)" placeholder="Enter blood composition here">
     </div>
   </div>
-  <span *ngIf="showResults">
+  <span>
   <div class="row" *ngFor="let result of finalResults; let i=index">
     <div class="col mt-3 text-dark">Results for person {{i+1}}: {{result}}</div>
   </div>
 </span>
   <div class="row">
     <div class="col">
-      <button type="submit" (click)="OnSubmitHandler()" [disabled]="showResults" class="btn btn-primary col-md-12 mt-3">Submit</button>
+      <button type="submit" (click)="OnSubmitHandler()" class="btn btn-primary col-md-12 mt-3">Submit</button>
     </div>
   </div>
 

@@ -8,61 +8,62 @@ import { Component } from '@angular/core';
 
 
 export class AppComponent {
-  title = 'demo';
   people: any = [];
   virusComposition: any = [];
   subsequence: any = [];
   subsequenceCheck: any = [];
   result: any = [];
   finalResults: any = [];
-  showResults: boolean = false;
+  data: any = [];
   peopleCount(evnt: any) {
     if (evnt.target.value >= 1 && evnt.target.value <= 10) {
-      this.people = Array(parseInt(evnt.target.value)).fill(0).map((x, i) => i);
-      console.log(this.people)
+      this.people = Array(parseInt(evnt.target.value)).fill("").map((x, i) => "");
     } else {
       alert("Please enter the value between 1 to 10")
     }
   }
 
-  getVirusComposition(evnt: any) {
-    console.log(evnt.target.value)
-    this.virusComposition = [...evnt.target.value];
-    console.log('------', this.virusComposition)
+  addData = (event: any, index: any) => {
+    const findIndex = this.data.findIndex((i: any) => i.index == index);
+    if(findIndex == -1) {
+      this.data.push({
+        data: event.target.value,
+        index: index,
+      });
+    } else {
+      this.data = this.data.map((e: any, ind: any) => {
+        if(ind == index) {
+          e.data = event.target.value;
+        }
+        return e;
+      });
+    }
   }
 
-  VirusSubsequence(evnt: any) {
-    console.log('virus', evnt.target.value)
-    this.subsequenceCheck = [...evnt.target.value];
-    console.log('hhh', this.subsequenceCheck)
-    for (let i = 0; i < this.virusComposition.length; i++) {
-      // Pick ending point
-      for (let j = i; j < this.virusComposition.length; j++) {
-        // Print subarray between current
-        // starting and ending points
-        for (let k = i; k < j; k++) {
-          this.subsequence.push(this.virusComposition[k]);
-        }
-      }
-    }
-    let arrayIndex = 0;
-    let sequenceIndex = 0;
+  getVirusComposition(evnt: any) {
+    this.virusComposition = [...evnt.target.value];
+  }
 
-    while (arrayIndex < this.subsequence.length && sequenceIndex < this.subsequenceCheck.length) {
-      if (this.subsequenceCheck[sequenceIndex] === this.subsequence[arrayIndex]) {
-        sequenceIndex++;
+  isValidSequence = (array: any, sequence: any) => {
+    let index = 0;
+    for(let i=0; i<array.length; i++){
+      if(sequence[index] === array[i]){
+        index++;
       }
-      arrayIndex++;
     }
-    if (sequenceIndex === this.subsequenceCheck.length) {
-      this.finalResults.push("POSITIVE")
-    } else {
-      this.finalResults.push("NEGATIVE")
-    }
+    return sequence.length === index;
+  }
+
+  VirusSubsequence(value: any) {
+    const RESULT = this.isValidSequence(this.virusComposition, [...value]) ? "POSITIVE" : "NEGATIVE";
+    this.finalResults.push(RESULT);
   }
 
   OnSubmitHandler() {
-    this.showResults = !this.showResults
+    this.finalResults = [];
+    this.data.forEach((element: any) => {
+      this.VirusSubsequence(element.data);
+    });
   }
 
 }
